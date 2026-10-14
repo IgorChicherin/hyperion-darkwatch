@@ -1,0 +1,9 @@
+[Unit]
+Description=Start hyperiond when KDE goes dark
+
+[Service]
+ExecStart=%h/.local/bin/hyper-darkwatch
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
