@@ -1,7 +1,7 @@
 #!/bin/sh
 # Start hyperiond when KDE color scheme turns dark (e.g. at sunset via Plasma auto switching); stop it on light.
 while :; do
-  scheme=$(sed -n 's/^ColorScheme=//p' "$HOME/.config/kdeglobals")
+  scheme=$(kreadconfig6 --group General --key ColorScheme)
   case "$scheme" in
     *[Dd]ark*) pgrep -x hyperiond >/dev/null || setsid "$HOME/.local/bin/hyperiond" >/dev/null 2>&1 & ;;
     *) pkill -x hyperiond ;;

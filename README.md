@@ -9,7 +9,7 @@ It does not contain Hyperion itself.
 
 ## How it works
 
-`bin/hyper-darkwatch` reads `ColorScheme` from `~/.config/kdeglobals` once per second.
+`bin/hyper-darkwatch` reads `ColorScheme` with `kreadconfig6` once per second. Plasma 6.5 day/night switching keeps the key in `~/.config/kdedefaults/kdeglobals`, not `~/.config/kdeglobals`, so a plain file grep misses it.
 
 - Name contains "dark" (for example `BreezeDark`): start `hyperiond` if it is not running.
 - Anything else: `pkill -x hyperiond`.
@@ -25,8 +25,9 @@ System Settings, Appearance, Day/Night cycle (Plasma 6.5 or later), switch at su
 
 ## Requirements
 
-- KDE Plasma 6 (uses the `ColorScheme` key of `kdeglobals`)
+- KDE Plasma 6 (uses the `ColorScheme` key of the KDE config)
 - systemd user session
+- `kreadconfig6` (ships with Plasma 6)
 - `hyperiond` reachable at `~/.local/bin/hyperiond` (edit `bin/hyper-darkwatch` for another path)
 
 ## Install
