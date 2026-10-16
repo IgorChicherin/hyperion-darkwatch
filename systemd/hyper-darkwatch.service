@@ -1,9 +1,11 @@
 [Unit]
 Description=Start hyperiond when KDE goes dark
+After=plasma-workspace.target
+PartOf=graphical-session.target
 
 [Service]
 ExecStart=%h/.local/bin/hyper-darkwatch
 Restart=on-failure
 
 [Install]
-WantedBy=default.target
+WantedBy=plasma-workspace.target

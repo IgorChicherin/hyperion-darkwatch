@@ -1,9 +1,13 @@
 #!/bin/sh
 # Start hyperiond when KDE color scheme turns dark (e.g. at sunset via Plasma auto switching); stop it on light.
+# Logs scheme changes and starts to the journal: journalctl --user -u hyper-darkwatch
+export LANG=C.UTF-8  # silences the Qt locale warning kreadconfig6 prints every second
+last=
 while :; do
-  scheme=$(kreadconfig6 --group General --key ColorScheme)
+  scheme=$(kreadconfig6 --group General --key ColorScheme 2>/dev/null)
+  [ "$scheme" = "$last" ] || { echo "scheme: '$scheme'"; last=$scheme; }
   case "$scheme" in
-    *[Dd]ark*) pgrep -x hyperiond >/dev/null || setsid "$HOME/.local/bin/hyperiond" >/dev/null 2>&1 & ;;
+    *[Dd]ark*) pgrep -x hyperiond >/dev/null || { echo "starting hyperiond"; setsid "$HOME/.local/bin/hyperiond" >/dev/null 2>&1 & } ;;
     *) pkill -x hyperiond ;;
   esac
   sleep 1
